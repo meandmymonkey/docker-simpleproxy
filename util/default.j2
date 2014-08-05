@@ -1,0 +1,12 @@
+{% for host, server in servers %}
+server {
+    server_name {{ host }};
+    listen 80;
+
+    location / {
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_pass http://{{ server.ip }}:{{ server.port }};
+    }
+}
+{% endfor %}
